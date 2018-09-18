@@ -154,6 +154,10 @@ class Setting extends BaseModel {
 
 			'net.customCertificates': { value: '', type: Setting.TYPE_STRING, show: (settings) => { return [SyncTargetRegistry.nameToId('nextcloud'), SyncTargetRegistry.nameToId('webdav')].indexOf(settings['sync.target']) >= 0 }, public: true, appTypes: ['desktop', 'cli'], label: () => _('Custom TLS certificates'), description: () => _('Comma-separated list of paths to directories to load the certificates from, or path to individual cert files. For example: /my/cert_dir, /other/custom.pem. Note that if you make changes to the TLS settings, you must save your changes before clicking on "Check synchronisation configuration".') },
 			'net.ignoreTlsErrors': { value: false, type: Setting.TYPE_BOOL, show: (settings) => { return [SyncTargetRegistry.nameToId('nextcloud'), SyncTargetRegistry.nameToId('webdav')].indexOf(settings['sync.target']) >= 0 }, public: true, appTypes: ['desktop', 'cli'], label: () => _('Ignore TLS certificate errors') },
+      'sort.folder.column': { value: 'title', type: Setting.TYPE_STRING, public: true },
+      'sort.folder.direction': { value: 'asc', type: Setting.TYPE_STRING, public: true },
+      'sort.tag.column': { value: 'title', type: Setting.TYPE_STRING, public: true },
+      'sort.tag.direction': { value: 'asc', type: Setting.TYPE_STRING, public: true },
 		};
 
 		return this.metadata_;
@@ -557,6 +561,11 @@ Setting.DATE_FORMAT_6 = 'DD.MM.YYYY';
 
 Setting.TIME_FORMAT_1 = 'HH:mm';
 Setting.TIME_FORMAT_2 = 'h:mm A';
+
+Setting.SORT_TITLE_ASC = 'title COLLATE NOCASE ASC';
+Setting.SORT_TITLE_DSC = 'title COLLATE NOCASE DESC';
+Setting.SORT_CREATED_ASC = 'created_time ASC';
+Setting.SORT_CREATED_DSC = 'created_time DESC';
 
 // Contains constants that are set by the application and
 // cannot be modified by the user:

@@ -2,6 +2,7 @@ const BaseModel = require('lib/BaseModel.js');
 const BaseItem = require('lib/models/BaseItem.js');
 const NoteTag = require('lib/models/NoteTag.js');
 const Note = require('lib/models/Note.js');
+const Setting = require('lib/models/Setting.js');
 const { time } = require('lib/time-utils.js');
 const { _ } = require('lib/locale');
 
@@ -95,12 +96,12 @@ class Tag extends BaseItem {
 	}
 
 	static async allWithNotes() {
-		return await Tag.modelSelectAll('SELECT * FROM tags WHERE id IN (SELECT DISTINCT tag_id FROM note_tags) ORDER BY Title COLLATE NOCASE ASC');
+		return await Tag.modelSelectAll('SELECT * FROM tags WHERE id IN (SELECT DISTINCT tag_id FROM note_tags) ORDER BY ' + Setting.value('sort.tag.column') + ' COLLATE NOCASE ' + Setting.value('sort.tag.direction') );
 	}
 
 	static async tagsByNoteId(noteId) {
 		const tagIds = await NoteTag.tagIdsByNoteId(noteId);
-		return this.modelSelectAll('SELECT * FROM tags WHERE id IN ("' + tagIds.join('","') + '") ORDER BY Title COLLATE NOCASE ASC');
+		return this.modelSelectAll('SELECT * FROM tags WHERE id IN ("' + tagIds.join('","') + '") ORDER BY ' + Setting.value('sort.tag.column') + ' COLLATE NOCASE ' + Setting.value('sort.tag.direction') );
 	}
 
 	static async loadByTitle(title) {

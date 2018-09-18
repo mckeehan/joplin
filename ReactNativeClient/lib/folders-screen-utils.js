@@ -1,4 +1,5 @@
 const Folder = require('lib/models/Folder.js');
+const Setting = require('lib/models/Setting.js');
 
 class FoldersScreenUtils {
 
@@ -6,8 +7,8 @@ class FoldersScreenUtils {
 		let initialFolders = await Folder.all({
 			includeConflictFolder: true,
 			order: [{
-				by: "title",
-				dir: "asc"
+				by: Setting.value('sort.folder.column'),
+				dir: Setting.value('sort.folder.direction')
 			}]
 		});
 

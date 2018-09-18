@@ -45,7 +45,7 @@ class Folder extends BaseItem {
 	}
 
 	static async subFolderIds(parentId) {
-		const rows = await this.db().selectAll('SELECT id FROM folders WHERE parent_id = ? ORDER BY Title COLLATE NOCASE ASC', [parentId]);
+		const rows = await this.db().selectAll('SELECT id FROM folders WHERE parent_id = ? ORDER BY ' + Setting.value('sort.folders'), [parentId]);
 		return rows.map(r => r.id);
 	}
 
@@ -117,7 +117,7 @@ class Folder extends BaseItem {
 	static async childrenIds(folderId, recursive) {
 		if (recursive === false) throw new Error('Not implemented');
 
-		const folders = await this.db().selectAll('SELECT id FROM folders WHERE parent_id = ? ORDER BY Title COLLATE NOCASE ASC', [folderId]);
+		const folders = await this.db().selectAll('SELECT id FROM folders WHERE parent_id = ? ORDER BY ' + Setting.value('sort.folders'), [folderId]);
 
 		let output = [];
 
