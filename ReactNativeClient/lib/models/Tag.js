@@ -95,12 +95,12 @@ class Tag extends BaseItem {
 	}
 
 	static async allWithNotes() {
-		return await Tag.modelSelectAll('SELECT * FROM tags WHERE id IN (SELECT DISTINCT tag_id FROM note_tags)');
+		return await Tag.modelSelectAll('SELECT * FROM tags WHERE id IN (SELECT DISTINCT tag_id FROM note_tags) ORDER BY Title COLLATE NOCASE ASC');
 	}
 
 	static async tagsByNoteId(noteId) {
 		const tagIds = await NoteTag.tagIdsByNoteId(noteId);
-		return this.modelSelectAll('SELECT * FROM tags WHERE id IN ("' + tagIds.join('","') + '")');
+		return this.modelSelectAll('SELECT * FROM tags WHERE id IN ("' + tagIds.join('","') + '") ORDER BY Title COLLATE NOCASE ASC');
 	}
 
 	static async loadByTitle(title) {
